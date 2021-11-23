@@ -24,4 +24,5 @@ class Note {
     fun setTodo(todo: String?) {
         this.todo = todo
     }
+    //Nothing
 }
