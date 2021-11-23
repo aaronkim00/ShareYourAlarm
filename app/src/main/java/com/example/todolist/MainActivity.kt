@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val saveButton: Button = findViewById(R.id.saveButton)
         Log.d("hello", "oh")
         saveButton.setOnClickListener {
-            saveToDo()
+            saveToDo()//sssss
             Toast.makeText(applicationContext, "추가되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
