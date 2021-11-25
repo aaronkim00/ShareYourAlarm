@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging.getInstance
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         val saveButton: Button = findViewById(R.id.saveButton)
         Log.d("hello", "oh")
         saveButton.setOnClickListener {
-            saveToDo()//sssss
+            saveToDo()
             Toast.makeText(applicationContext, "추가되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -26,4 +28,5 @@ class MainActivity : AppCompatActivity() {
     private fun saveToDo() {
         TODO("Not yet implemented")
     }
+
 }
