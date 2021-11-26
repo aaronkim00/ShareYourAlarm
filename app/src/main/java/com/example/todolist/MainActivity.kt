@@ -1,23 +1,16 @@
 package com.example.todolist
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.Toast
+import android.util.Patterns
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.installations.FirebaseInstallations
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessaging.getInstance
 
 
-class MainActivity : AppCompatActivity() {
-    lateinit var mainFragment: Fragment
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+    /*lateinit var mainFragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,6 +40,76 @@ class MainActivity : AppCompatActivity() {
                 var pushToken = task.result?:""
                 map["pushtoken"] = pushToken!!
                 FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+            }
+        }
+    }*/
+
+    private lateinit var register: TextView
+    private lateinit var editTextEmail: EditText
+    private lateinit var editTextPassword: EditText
+    private lateinit var signIn: Button
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var progressBar: ProgressBar
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        register=findViewById(R.id.register)
+        register.setOnClickListener(this)
+
+        signIn=findViewById(R.id.signIn)
+        signIn.setOnClickListener(this)
+
+        editTextEmail=findViewById(R.id.email)
+        editTextPassword=findViewById(R.id.password)
+
+        progressBar=findViewById(R.id.progressBar)
+
+        mAuth = FirebaseAuth.getInstance()
+    }
+
+    override fun onClick(p0: View?) {
+        if (p0 != null) {
+            when (p0.id){
+                R.id.register -> startActivity(Intent(this, RegisterUser::class.java))
+                R.id.signIn -> userLogin()
+            }
+
+        }
+    }
+
+    private fun userLogin() {
+        val email: String = editTextEmail.text.toString().trim()
+        val password: String = editTextPassword.text.toString().trim()
+
+        if(email.isEmpty()){
+            editTextEmail.error="Email is required!"
+            editTextEmail.requestFocus()
+            return
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editTextEmail.error="Please enter a valid email!"
+            editTextEmail.requestFocus()
+            return
+        }
+
+        if(password.length < 6){
+            editTextPassword.error="Min password length is 6 characters!"
+            editTextPassword.requestFocus()
+            return
+        }
+
+        progressBar.setVisibility(View.VISIBLE)
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                //redirect to user profile
+                startActivity(Intent(this, ProfileActivity::class.java))
+            } else {
+                Toast.makeText(this@MainActivity,
+                    "Failed to login! Please check your credentials",
+                    Toast.LENGTH_LONG).show()
             }
         }
     }
