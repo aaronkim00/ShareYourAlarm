@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }*/
 
     private lateinit var register: TextView
+    private lateinit var forgotPassword: TextView
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var signIn: Button
@@ -66,6 +67,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         progressBar=findViewById(R.id.progressBar)
 
         mAuth = FirebaseAuth.getInstance()
+
+        forgotPassword=findViewById(R.id.forgotPassword)
+        forgotPassword.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -73,6 +77,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             when (p0.id){
                 R.id.register -> startActivity(Intent(this, RegisterUser::class.java))
                 R.id.signIn -> userLogin()
+                R.id.forgotPassword -> startActivity(Intent(this, ForgotPassword::class.java))
             }
 
         }
