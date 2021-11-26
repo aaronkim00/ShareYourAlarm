@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ToDoList</string>
     <string name="default_notification_channel_id">Hello</string>
-    <string name="tag">Tag</string>
     <string name="msg_token_fmt">message</string>
 </resources>
