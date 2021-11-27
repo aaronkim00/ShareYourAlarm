@@ -1,5 +1,6 @@
 package com.example.todolist
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -58,11 +59,12 @@ class ForgotPassword : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this@ForgotPassword,
-                        "Check our email to rest your password!",
+                        "Check your email to reset your password!",
                         Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, MainActivity::class.java))
                 } else {
                     Toast.makeText(this@ForgotPassword,
-                        "Try again! Something wrong happed!",
+                        "Try again! Something wrong happened!",
                         Toast.LENGTH_LONG).show()
                 }
             }

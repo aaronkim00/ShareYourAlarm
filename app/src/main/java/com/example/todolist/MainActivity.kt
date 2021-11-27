@@ -2,6 +2,7 @@ package com.example.todolist
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
@@ -79,7 +80,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.signIn -> userLogin()
                 R.id.forgotPassword -> startActivity(Intent(this, ForgotPassword::class.java))
             }
-
         }
     }
 
@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 //redirect to user profile
+                Log.d("hello", "good")
                 startActivity(Intent(this, ProfileActivity::class.java))
             } else {
                 Toast.makeText(this@MainActivity,

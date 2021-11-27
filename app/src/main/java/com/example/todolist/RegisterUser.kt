@@ -119,6 +119,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
                                 progressBar.visibility = View.GONE
 
                                 // redirect to login layout!
+                                startActivity(Intent(this, MainActivity::class.java))
                             } else {
                                 Toast.makeText(this@RegisterUser,
                                     "Failed to register! Try again!",

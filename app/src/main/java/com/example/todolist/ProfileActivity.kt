@@ -56,8 +56,7 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@ProfileActivity, "Something wrong happened!", Toast.LENGTH_LONG)
-                    .show()
+                Toast.makeText(this@ProfileActivity, "Something wrong happened!", Toast.LENGTH_LONG).show()
             }
         })
 
