@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareYourAlarm">
-        <activity android:name=".DestinationActivity"></activity>
+        <activity android:name=".SetAlarmActivity"></activity>
+        <activity android:name=".DestinationActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
