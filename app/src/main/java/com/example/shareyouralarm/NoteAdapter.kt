@@ -19,18 +19,18 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
         val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
 
         init {
-            deleteButton.setOnClickListener{
+            deleteButton.setOnClickListener {
                 val todo = checkBox.text.toString()
                 deleteToDo(todo)
                 //Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        fun setItem(item: Note){
+        fun setItem(item: Note) {
             checkBox.text = item.getTodo()
         }
 
-        fun setLayout(){
+        fun setLayout() {
             layoutTodo.visibility = View.VISIBLE
         }
 
@@ -40,8 +40,8 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     }
 
-    fun setItems(items: ArrayList<Note>){
-        this.items=items
+    fun setItems(items: ArrayList<Note>) {
+        this.items = items
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,5 +56,6 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
         holder.setLayout()
     }
 
-    override fun getItemCount() = items.size;
+    override fun getItemCount() = items.size
+}
 
