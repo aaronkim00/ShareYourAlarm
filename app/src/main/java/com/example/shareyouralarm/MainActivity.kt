@@ -16,6 +16,37 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainActivity"
 
+    /*lateinit var mainFragment: Fragment
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        mainFragment = MainFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.container, mainFragment).commit()
+        val saveButton: Button = findViewById(R.id.saveButton)
+        Log.d(TAG, "oh")
+        saveButton.setOnClickListener {
+            saveToDo()
+            Toast.makeText(applicationContext, "추가되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+        //registerPushToken()
+    }
+
+    private fun saveToDo() {
+        TODO("Not yet implemented")
+    }
+
+    private fun registerPushToken() {
+        var uid = Firebase.auth.currentUser!!.uid
+        var map = mutableMapOf<String, Any>()
+        getInstance().token.addOnCompleteListener { task ->
+            if(task.isSuccessful){
+                var pushToken = task.result?:""
+                map["pushtoken"] = pushToken!!
+                FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+            }
+        }
+    }*/
+
     private lateinit var register: TextView
     private lateinit var forgotPassword: TextView
     private lateinit var editTextEmail: EditText
@@ -83,7 +114,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    
+
     private fun userLogin() {
         val email: String = editTextEmail.text.toString().trim()
         val password: String = editTextPassword.text.toString().trim()
