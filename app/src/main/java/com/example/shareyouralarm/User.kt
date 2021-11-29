@@ -1,11 +1,11 @@
-package com.example.todolist
+package com.example.shareyouralarm
 
 class User {
 
     public lateinit var fullName: String
     public lateinit var age: String
     public lateinit var email: String
-    
+
     constructor(){
         //
     }

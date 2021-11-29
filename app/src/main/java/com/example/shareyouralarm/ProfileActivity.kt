@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.shareyouralarm
 
 import android.content.Intent
 import android.os.Bundle
@@ -42,8 +42,7 @@ class ProfileActivity : AppCompatActivity() {
 
         reference.child(userID).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val userProfile = snapshot.getValue(
-                    User::class.java)
+                val userProfile = snapshot.getValue(User::class.java)
                 if (userProfile != null) {
                     val fullName = userProfile.fullName
                     val email = userProfile.email

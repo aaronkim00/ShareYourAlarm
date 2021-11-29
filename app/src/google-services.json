@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "910689973566",
-    "project_id": "shareyouralarm",
-    "storage_bucket": "shareyouralarm.appspot.com"
+    "project_number": "371626997674",
+    "project_id": "new-project-again-61cb6",
+    "storage_bucket": "new-project-again-61cb6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:910689973566:android:0eaa7d3be479b7b52a686f",
+        "mobilesdk_app_id": "1:371626997674:android:24048f271ec69778905dd3",
         "android_client_info": {
-          "package_name": "com.example.todolist"
+          "package_name": "com.example.shareyouralarm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "910689973566-l9aon28cg6ivt6qlvtmdiq6vv2vhs9kk.apps.googleusercontent.com",
+          "client_id": "371626997674-i2jsav988fcnk52bgo7jbqr7lpp6a2e3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDi9bH337-nlUHONP7oe44zFylsPZuT3io"
+          "current_key": "AIzaSyAOf1UqpdZKU68Nypfk-2eyHABBeMHh0zk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "910689973566-l9aon28cg6ivt6qlvtmdiq6vv2vhs9kk.apps.googleusercontent.com",
+              "client_id": "371626997674-i2jsav988fcnk52bgo7jbqr7lpp6a2e3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

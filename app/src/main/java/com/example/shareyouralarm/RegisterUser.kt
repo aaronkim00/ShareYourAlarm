@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.shareyouralarm
 
 import android.content.Intent
 import android.os.Bundle
@@ -33,10 +33,10 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_register_user)
         mAuth = Firebase.auth
 
-        banner=findViewById(R.id.banner)
+        banner = findViewById(R.id.banner)
         banner.setOnClickListener(this)
 
-        registerUser=findViewById(R.id.registerUser)
+        registerUser = findViewById(R.id.registerUser)
         registerUser.setOnClickListener(this)
 
         editTextFullName = findViewById(R.id.fullName)
@@ -61,7 +61,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         if (p0 != null) {
-            when(p0.id){
+            when (p0.id) {
                 R.id.banner -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.registerUser -> registerUser()
             }
@@ -69,42 +69,42 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
     }
 
     private fun registerUser() {
-        val fullName:String? = editTextFullName.text.toString().trim()
-        val age:String? = editTextAge.text.toString().trim()
-        val email:String? = editTextEmail.text.toString().trim()
-        val password:String? = editTextPassword.text.toString().trim()
+        val fullName: String? = editTextFullName.text.toString().trim()
+        val age: String? = editTextAge.text.toString().trim()
+        val email: String? = editTextEmail.text.toString().trim()
+        val password: String? = editTextPassword.text.toString().trim()
 
-        if(fullName!!.isEmpty()){
+        if (fullName!!.isEmpty()) {
             editTextFullName.error = "Full name is required!"
             editTextFullName.requestFocus()
             return
         }
-        if(age!!.isEmpty()){
+        if (age!!.isEmpty()) {
             editTextAge.error = "Age is required!"
             editTextAge.requestFocus()
             return
         }
-        if(email!!.isEmpty()){
+        if (email!!.isEmpty()) {
             editTextEmail.error = "Email is required!"
             editTextEmail.requestFocus()
             return
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.error = "Please provide valid email!"
             editTextEmail.requestFocus()
             return
         }
-        if(password!!.isEmpty()){
+        if (password!!.isEmpty()) {
             editTextPassword.setError("Password is required!")
             editTextPassword.requestFocus()
             return
         }
-        if(password.length < 6){
+        if (password.length < 6) {
             editTextPassword.setError("Min password length should be 6 characters!")
             editTextPassword.requestFocus()
             return
         }
-        progressBar.visibility=View.VISIBLE
+        progressBar.visibility = View.VISIBLE
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task: Task<AuthResult> ->
                 if (task.isSuccessful) {
@@ -113,25 +113,31 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
                         .child(FirebaseAuth.getInstance().currentUser!!.uid)
                         .setValue(user).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(this@RegisterUser,
+                                Toast.makeText(
+                                    this@RegisterUser,
                                     "User has been registered successfully!",
-                                    Toast.LENGTH_LONG).show()
+                                    Toast.LENGTH_LONG
+                                ).show()
                                 progressBar.visibility = View.GONE
 
                                 // redirect to login layout!
                                 startActivity(Intent(this, MainActivity::class.java))
                             } else {
-                                Toast.makeText(this@RegisterUser,
+                                Toast.makeText(
+                                    this@RegisterUser,
                                     "Failed to register! Try again!",
-                                    Toast.LENGTH_LONG).show()
+                                    Toast.LENGTH_LONG
+                                ).show()
                                 progressBar.visibility = View.GONE
                             }
                         }
                 } else {
                     //Registration error
-                    Toast.makeText(this@RegisterUser,
+                    Toast.makeText(
+                        this@RegisterUser,
                         "Failed to register! Try again!",
-                        Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_LONG
+                    ).show()
                     progressBar.visibility = View.GONE
                 }
             }

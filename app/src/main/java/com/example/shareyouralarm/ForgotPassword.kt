@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.shareyouralarm
 
 import android.content.Intent
 import android.os.Bundle
@@ -31,41 +31,41 @@ class ForgotPassword : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        resetPasswordButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                resetPassword()
-            }
-        })
+        resetPasswordButton.setOnClickListener { resetPassword() }
 
     }
 
-    private fun resetPassword(){
+    private fun resetPassword() {
         var email = emailEditText.text.toString().trim()
 
-        if(email.isEmpty()){
-            emailEditText.setError("Email is required!")
+        if (email.isEmpty()) {
+            emailEditText.error = "Email is required!"
             emailEditText.requestFocus()
             return
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailEditText.setError("Please provide valid email!")
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.error = "Please provide valid email!"
             emailEditText.requestFocus()
             return
         }
 
-        progressBar.visibility=View.VISIBLE
+        progressBar.visibility = View.VISIBLE
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this@ForgotPassword,
+                    Toast.makeText(
+                        this@ForgotPassword,
                         "Check your email to reset your password!",
-                        Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_LONG
+                    ).show()
                     startActivity(Intent(this, MainActivity::class.java))
                 } else {
-                    Toast.makeText(this@ForgotPassword,
+                    Toast.makeText(
+                        this@ForgotPassword,
                         "Try again! Something wrong happened!",
-                        Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
     }
