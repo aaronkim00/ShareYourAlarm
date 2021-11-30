@@ -62,7 +62,7 @@
         />
 
     <TextView
-        android:id="@+id/ageTitle"
+        android:id="@+id/roomNumTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Age:"
@@ -74,10 +74,10 @@
         />
 
     <TextView
-        android:id="@+id/age"
+        android:id="@+id/roomNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ageTitle"
+        app:layout_constraintTop_toBottomOf="@+id/roomNumTitle"
         app:layout_constraintLeft_toLeftOf="@+id/fullNameTitle"
         android:layout_marginLeft="30dp"
         android:textSize="20sp"

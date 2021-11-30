@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -14,6 +15,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
+    private val TAG = "MyFirebaseMessagingService"
     /**
      * 메시지 수신받는 메소드
      * @param msg
@@ -77,6 +79,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
-        private const val TAG = "FCMService"
+        fun getToken(context: Context): String {
+            return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty").toString()
+        }
     }
 }

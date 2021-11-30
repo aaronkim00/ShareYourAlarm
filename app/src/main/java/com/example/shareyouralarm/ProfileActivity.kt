@@ -38,7 +38,7 @@ class ProfileActivity : AppCompatActivity() {
         val greetingTextView: TextView = findViewById(R.id.greeting)
         val fullNameTextView: TextView = findViewById(R.id.fullName)
         val emailTextView: TextView = findViewById(R.id.emailAddress)
-        val ageTextView: TextView = findViewById(R.id.age)
+        val roomNumTextView: TextView = findViewById(R.id.roomNum)
 
         reference.child(userID).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -46,11 +46,11 @@ class ProfileActivity : AppCompatActivity() {
                 if (userProfile != null) {
                     val fullName = userProfile.fullName
                     val email = userProfile.email
-                    val age = userProfile.age
+                    val roomNum = userProfile.roomNum
                     greetingTextView.text = "Welcome, $fullName!"
                     fullNameTextView.text = fullName
                     emailTextView.text = email
-                    ageTextView.text = age
+                    roomNumTextView.text = roomNum
                 }
             }
 

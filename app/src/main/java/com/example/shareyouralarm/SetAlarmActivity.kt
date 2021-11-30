@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -19,6 +20,8 @@ import java.util.*
 import com.example.shareyouralarm.databinding.ActivitySetAlarmBinding
 
 class SetAlarmActivity : AppCompatActivity() {
+
+    val TAG = "SetAlarmActivity"
 
     private lateinit var binding: ActivitySetAlarmBinding
     private lateinit var picker: MaterialTimePicker
@@ -81,7 +84,7 @@ class SetAlarmActivity : AppCompatActivity() {
 
         picker.show(supportFragmentManager, "foxandroid")
         picker.addOnPositiveButtonClickListener {
-            if (picker.hour > 12) {
+            if (picker.hour >= 12) {
                 binding.selectedTime.text =
                     String.format("%02d", picker.hour - 12) + ":" + String.format(
                         "%02d",

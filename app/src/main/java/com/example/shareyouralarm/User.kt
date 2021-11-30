@@ -3,17 +3,18 @@ package com.example.shareyouralarm
 class User {
 
     public lateinit var fullName: String
-    public lateinit var age: String
+    public lateinit var roomNum: String
     public lateinit var email: String
-
+    public lateinit var token: String
     constructor(){
         //
     }
 
-    constructor(fullName: String, age: String, email: String){
+    constructor(fullName: String, roomNum: String, email: String, token: String){
         this.fullName = fullName
-        this.age = age
+        this.roomNum = roomNum
         this.email = email
+        this.token = token
 
     }
 }

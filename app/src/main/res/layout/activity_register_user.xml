@@ -48,12 +48,12 @@
         />
 
     <EditText
-        android:id="@+id/age"
+        android:id="@+id/roomNum"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Age"
+        android:hint="Room number"
         android:inputType="number"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -71,7 +71,7 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/age"
+        app:layout_constraintTop_toBottomOf="@+id/roomNum"
         />
 
     <EditText

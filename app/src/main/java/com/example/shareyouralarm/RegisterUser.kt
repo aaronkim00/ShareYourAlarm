@@ -2,6 +2,7 @@ package com.example.shareyouralarm
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.EditText
@@ -9,12 +10,14 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class RegisterUser: AppCompatActivity(), View.OnClickListener {
@@ -23,10 +26,11 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
     private lateinit var banner: TextView
     private lateinit var registerUser: TextView
     private lateinit var editTextFullName: EditText
-    private lateinit var editTextAge: EditText
+    private lateinit var editTextRoomNum: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var progressBar: ProgressBar
+    private val TAG = "RegisterUser"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +44,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         registerUser.setOnClickListener(this)
 
         editTextFullName = findViewById(R.id.fullName)
-        editTextAge = findViewById(R.id.age)
+        editTextRoomNum = findViewById(R.id.roomNum)
         editTextEmail = findViewById(R.id.email)
         editTextPassword = findViewById(R.id.password)
 
@@ -69,22 +73,25 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
     }
 
     private fun registerUser() {
-        val fullName: String? = editTextFullName.text.toString().trim()
-        val age: String? = editTextAge.text.toString().trim()
-        val email: String? = editTextEmail.text.toString().trim()
-        val password: String? = editTextPassword.text.toString().trim()
+        val fullName = editTextFullName.text.toString().trim()
+        val roomNum = editTextRoomNum.text.toString().trim()
+        val email = editTextEmail.text.toString().trim()
+        val password = editTextPassword.text.toString().trim()
+        val token = /*MyFirebaseMessagingService.getToken(this)*/ "hello"
 
-        if (fullName!!.isEmpty()) {
+        Log.d(TAG, token)
+
+        if (fullName.isEmpty()) {
             editTextFullName.error = "Full name is required!"
             editTextFullName.requestFocus()
             return
         }
-        if (age!!.isEmpty()) {
-            editTextAge.error = "Age is required!"
-            editTextAge.requestFocus()
+        if (roomNum.isEmpty()) {
+            editTextRoomNum.error = "Room Number is required!"
+            editTextRoomNum.requestFocus()
             return
         }
-        if (email!!.isEmpty()) {
+        if (email.isEmpty()) {
             editTextEmail.error = "Email is required!"
             editTextEmail.requestFocus()
             return
@@ -94,7 +101,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
             editTextEmail.requestFocus()
             return
         }
-        if (password!!.isEmpty()) {
+        if (password.isEmpty()) {
             editTextPassword.setError("Password is required!")
             editTextPassword.requestFocus()
             return
@@ -106,9 +113,9 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         }
         progressBar.visibility = View.VISIBLE
         mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task: Task<AuthResult> ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = User(fullName, age, email)
+                    val user = User(fullName, roomNum, email, token)
                     FirebaseDatabase.getInstance().getReference("Users")
                         .child(FirebaseAuth.getInstance().currentUser!!.uid)
                         .setValue(user).addOnCompleteListener { task ->

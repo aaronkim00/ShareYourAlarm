@@ -142,8 +142,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 //redirect to user profile
-                Log.d("hello", "good")
-                startActivity(Intent(this, ProfileActivity::class.java))
+                startActivity(Intent(this, SetAlarmActivity::class.java))
             } else {
                 Toast.makeText(this@MainActivity,
                         "Failed to login! Please check your credentials",
