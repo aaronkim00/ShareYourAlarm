@@ -1,17 +1,19 @@
 package com.example.shareyouralarm
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainActivity"
@@ -101,7 +103,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             })
         })*/
-
     }
 
     override fun onClick(p0: View?) {
@@ -137,19 +138,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             return
         }
 
-        progressBar.setVisibility(View.VISIBLE)
+        progressBar.visibility = View.VISIBLE
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                //redirect to user profile
+                progressBar.visibility = View.GONE
                 startActivity(Intent(this, SetAlarmActivity::class.java))
             } else {
                 Toast.makeText(this@MainActivity,
                         "Failed to login! Please check your credentials",
                         Toast.LENGTH_LONG).show()
+                progressBar.visibility = View.GONE
             }
         }
     }
-
-
 }

@@ -86,7 +86,7 @@ class SetAlarmActivity : AppCompatActivity() {
         picker.addOnPositiveButtonClickListener {
             if (picker.hour >= 12) {
                 binding.selectedTime.text =
-                    String.format("%02d", picker.hour - 12) + ":" + String.format(
+                    String.format("%02d", (picker.hour-1)%12+1) + ":" + String.format(
                         "%02d",
                         picker.minute
                     ) + " PM"
