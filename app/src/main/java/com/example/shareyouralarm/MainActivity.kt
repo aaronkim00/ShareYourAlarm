@@ -116,15 +116,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         FirebaseDatabase.getInstance().getReference("Users").child(mAuth!!.currentUser!!.uid).child("token").setValue(task.result!!.token)
                         Log.d(TAG, mToken)
                     })
-                Firebase.messaging.subscribeToTopic("subscribed")
-                    .addOnCompleteListener { task ->
-                        var msg = "Successfully subscribed"
-                        if (!task.isSuccessful) {
-                            msg = "Subscription failed"
-                        }
-                        Log.d(TAG, msg)
-                        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    }
                 startActivity(Intent(this, SetAlarmActivity::class.java))
             } else {
                 Toast.makeText(this@MainActivity,

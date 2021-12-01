@@ -18,6 +18,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 
 
 class RegisterUser: AppCompatActivity(), View.OnClickListener {
@@ -28,6 +29,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
     private lateinit var editTextFullName: EditText
     private lateinit var editTextRoomNum: EditText
     private lateinit var editTextEmail: EditText
+    private lateinit var editTextGroupID: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var progressBar: ProgressBar
     private val TAG = "RegisterUser"
@@ -46,6 +48,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         editTextFullName = findViewById(R.id.fullName)
         editTextRoomNum = findViewById(R.id.roomNum)
         editTextEmail = findViewById(R.id.email)
+        editTextGroupID = findViewById(R.id.groupID)
         editTextPassword = findViewById(R.id.password)
 
         progressBar = findViewById(R.id.progressBar)
@@ -76,6 +79,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         val fullName = editTextFullName.text.toString().trim()
         val roomNum = editTextRoomNum.text.toString().trim()
         val email = editTextEmail.text.toString().trim()
+        val groupID = editTextGroupID.text.toString().trim()
         val password = editTextPassword.text.toString().trim()
         val token = MyFirebaseMessagingService.getToken(this)
 
@@ -101,6 +105,11 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
             editTextEmail.requestFocus()
             return
         }
+        if(groupID.isEmpty()){
+            editTextGroupID.error = "Group ID is required!"
+            editTextGroupID.requestFocus()
+            return
+        }
         if (password.isEmpty()) {
             editTextPassword.setError("Password is required!")
             editTextPassword.requestFocus()
@@ -115,7 +124,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = User(fullName, roomNum, email, token)
+                    val user = User(fullName, roomNum, email, token, groupID)
                     FirebaseDatabase.getInstance().getReference("Users")
                         .child(FirebaseAuth.getInstance().currentUser!!.uid)
                         .setValue(user).addOnCompleteListener { task ->
@@ -127,7 +136,16 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
                                 ).show()
                                 progressBar.visibility = View.GONE
 
-                                // redirect to login layout!
+                                Firebase.messaging.subscribeToTopic(groupID)
+                                    .addOnCompleteListener { task ->
+                                        var msg = "Successfully subscribed"
+                                        if (!task.isSuccessful) {
+                                            msg = "Subscription failed"
+                                        }
+                                        Log.d(TAG, msg)
+                                        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                                    }
+
                                 startActivity(Intent(this, MainActivity::class.java))
                             } else {
                                 Toast.makeText(
