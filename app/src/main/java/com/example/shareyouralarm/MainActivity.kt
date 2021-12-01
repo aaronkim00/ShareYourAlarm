@@ -10,44 +10,16 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainActivity"
-
-    /*lateinit var mainFragment: Fragment
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        mainFragment = MainFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.container, mainFragment).commit()
-        val saveButton: Button = findViewById(R.id.saveButton)
-        Log.d(TAG, "oh")
-        saveButton.setOnClickListener {
-            saveToDo()
-            Toast.makeText(applicationContext, "추가되었습니다.", Toast.LENGTH_SHORT).show()
-        }
-        //registerPushToken()
-    }
-
-    private fun saveToDo() {
-        TODO("Not yet implemented")
-    }
-
-    private fun registerPushToken() {
-        var uid = Firebase.auth.currentUser!!.uid
-        var map = mutableMapOf<String, Any>()
-        getInstance().token.addOnCompleteListener { task ->
-            if(task.isSuccessful){
-                var pushToken = task.result?:""
-                map["pushtoken"] = pushToken!!
-                FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
-            }
-        }
-    }*/
 
     private lateinit var register: TextView
     private lateinit var forgotPassword: TextView
@@ -56,8 +28,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var signIn: Button
     private lateinit var mAuth: FirebaseAuth
     private lateinit var progressBar: ProgressBar
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,14 +49,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         forgotPassword=findViewById(R.id.forgotPassword)
         forgotPassword.setOnClickListener(this)
 
-        FirebaseInstallations.getInstance().getToken(false)
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        return@OnCompleteListener
-                    }
-                    // Get new Instance ID token
-                    Log.d("hello", task.result!!.token.toString())
-                })
         /*logTokenButton.setOnClickListener(View.OnClickListener() {
             FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -103,6 +65,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             })
         })*/
+
     }
 
     override fun onClick(p0: View?) {
@@ -143,6 +106,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 progressBar.visibility = View.GONE
+                FirebaseInstallations.getInstance().getToken(false)
+                    .addOnCompleteListener(OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            return@OnCompleteListener
+                        }
+                        // Get new Instance ID token
+                        mToken = task.result!!.token
+                        FirebaseDatabase.getInstance().getReference("Users").child(mAuth!!.currentUser!!.uid).child("token").setValue(task.result!!.token)
+                    })
+                Firebase.messaging.subscribeToTopic("subscribed")
+                    .addOnCompleteListener { task ->
+                        var msg = "Successfully subscribed"
+                        if (!task.isSuccessful) {
+                            msg = "Subscription failed"
+                        }
+                        Log.d(TAG, msg)
+                        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                    }
                 startActivity(Intent(this, SetAlarmActivity::class.java))
             } else {
                 Toast.makeText(this@MainActivity,
@@ -151,5 +132,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 progressBar.visibility = View.GONE
             }
         }
+    }
+
+    companion object {
+        lateinit var mToken: String
     }
 }

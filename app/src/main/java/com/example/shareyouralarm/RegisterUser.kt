@@ -77,7 +77,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
         val roomNum = editTextRoomNum.text.toString().trim()
         val email = editTextEmail.text.toString().trim()
         val password = editTextPassword.text.toString().trim()
-        val token = /*MyFirebaseMessagingService.getToken(this)*/ "hello"
+        val token = MyFirebaseMessagingService.getToken(this)
 
         Log.d(TAG, token)
 
@@ -132,7 +132,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
                             } else {
                                 Toast.makeText(
                                     this@RegisterUser,
-                                    "Failed to register! Try again!",
+                                    "Failed to register! Try again! - 11111",
                                     Toast.LENGTH_LONG
                                 ).show()
                                 progressBar.visibility = View.GONE
@@ -142,7 +142,7 @@ class RegisterUser: AppCompatActivity(), View.OnClickListener {
                     //Registration error
                     Toast.makeText(
                         this@RegisterUser,
-                        "Failed to register! Try again!",
+                        "Failed to register! Try again! - 22222",
                         Toast.LENGTH_LONG
                     ).show()
                     progressBar.visibility = View.GONE
