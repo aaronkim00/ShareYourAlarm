@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         // Get new Instance ID token
                         mToken = task.result!!.token
                         FirebaseDatabase.getInstance().getReference("Users").child(mAuth!!.currentUser!!.uid).child("token").setValue(task.result!!.token)
+                        Log.d(TAG, mToken)
                     })
                 Firebase.messaging.subscribeToTopic("subscribed")
                     .addOnCompleteListener { task ->

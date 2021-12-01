@@ -5,25 +5,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.io.OutputStream
-import java.net.HttpURLConnection
-import java.net.URL
-
 
 class AlarmReceiver : BroadcastReceiver() {
     val TAG = "AlarmReceiver"
@@ -44,17 +31,15 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(123, builder.build())
-        val PushNotification = PushNotification(
-            NotificationData("StreetCat", "내가 쓴 게시글에 댓글이 달렸어요!"),
-            MainActivity.mToken
-        )
-        sendNotification(PushNotification)
+        sendNotification("hello", "world")
     }
 
-    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+    private fun sendNotification(body:String, title:String) = CoroutineScope(Dispatchers.IO).launch {
         try {
-            val response = RetrofitInstance.api.postNotification(notification)
+            val message = Message("/topics/subscribed", Notification(body, title))
+            val response = RetrofitInstance.api.postNotification(message)
             if(response.isSuccessful) {
+                Log.d(TAG, "Response: ${Gson().toJson(message)}")
                 Log.d(TAG, "Response: ${Gson().toJson(response)}")
             } else {
                 Log.e(TAG, response.errorBody().toString())
