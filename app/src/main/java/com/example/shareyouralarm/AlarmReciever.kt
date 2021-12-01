@@ -7,6 +7,8 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +24,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context!!, "foxandroid")
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Foxandroid Alarm Manager")
-                .setContentText("Subscribe for more android related content")
+                .setContentTitle("Wake up!")
+                .setContentText("Have a good day!")
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -31,7 +33,12 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(123, builder.build())
-        sendNotification("hello", "world")
+        FirebaseDatabase.getInstance().getReference("Users").child(
+            FirebaseAuth.getInstance()!!.currentUser!!.uid).child("fullName").get().addOnSuccessListener{
+            sendNotification("hello", "Please wake ${it.value} up! ")
+        }.addOnFailureListener{
+            Log.d("firebase", "Error getting data", it)
+        }
     }
 
     private fun sendNotification(body:String, title:String) = CoroutineScope(Dispatchers.IO).launch {

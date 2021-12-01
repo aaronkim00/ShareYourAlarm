@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterUser" />
+        <activity android:name=".ForgotPassword" />
 
         <service
             android:name=".MyFirebaseMessagingService"
